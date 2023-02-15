@@ -1,5 +1,7 @@
 ## event simulator
-
+## simulate number of uses for some amount of stock with a fixed probability
+## of loss at every iteration (every 'use' of the container.)
+## corroborates the theoretical reuse using geom dist.
 
 stock <- 100
 numIters <- 1000

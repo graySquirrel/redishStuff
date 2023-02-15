@@ -19,6 +19,9 @@ The average value of something is calculated as the 'expected value'. For a disc
 For our case, p(n) is the probability that an item is lost on the nth use.
 p(n) = (1 - p(not lost)^n) - (1 - p(not lost)^(n-1)) = p(not lost)^(n-1) - p(not lost)^n
 
+The other approach is to notice that this problem is also a classical geometric distribution problem.  You'll get identical results following https://en.wikipedia.org/wiki/Geometric_distribution
+The below median calculation comes from that.
+
 ```{r cars}
 ploss <- 1/6
 numsamples <- 1000
@@ -37,9 +40,9 @@ for (i in parr) {
 cumsum <- cumsum/sum(p1)
 medianval <- parr[max(which(cumsum<0.5))]
 print(medianval)
-#nmed1 <- -1/log2(pnotlost) + 1
+nmed1 <- -1/log2(pnotlost) 
 nmed2 <- log10(.5)/log10(pnotlost)
-#print(paste(nmed1,nmed2))
+print(paste(nmed1,nmed2))
 plot(cumsum, type ="l")
 ```
 
