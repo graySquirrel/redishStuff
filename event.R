@@ -3,9 +3,9 @@
 
 stock <- 100
 numIters <- 1000
-lossprob <- 0.1
+lossprob <- 0.05
 numlost <- stock * lossprob
-print(paste("number lost per iteration",numlost))
+#print(paste("number lost per iteration",numlost))
 if (numlost < 1) {
   print(paste("increase number of iterations"))
   stop()
@@ -23,6 +23,7 @@ for (i in 1:numIters) {
   dfUsing$numUses <- dfUsing$numUses + 1
 }
 
-print(mean(dfUsing$numUses))
-print(median(dfUsing$numUses))
+print(paste("loss probability",lossprob))
+print(paste("mean number uses",mean(dfUsing$numUses)))
+print(paste("median number uses",median(dfUsing$numUses)))
 
