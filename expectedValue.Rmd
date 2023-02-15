@@ -39,7 +39,7 @@ medianval <- parr[max(which(cumsum<0.5))]
 print(medianval)
 #nmed1 <- -1/log2(pnotlost) + 1
 nmed2 <- log10(.5)/log10(pnotlost)
-print(paste(nmed1,nmed2))
+#print(paste(nmed1,nmed2))
 plot(cumsum, type ="l")
 ```
 
