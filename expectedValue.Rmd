@@ -1,0 +1,72 @@
+---
+title: "averageReuses.Rmd"
+output: html_document
+date: "2023-02-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(knitr)
+```
+
+## Calculate the average number of reuses of an item
+
+Given a fixed probability of 'loss', i.e. not getting it back, what is the AVERAGE number of uses.
+
+The average value of something is calculated as the 'expected value'. For a discrete distribution it is defined as Sum over all n's of (n*p(n)), where p(n) is the probability density of n (n is number of uses).  See here for more context: https://math.stackexchange.com/questions/1119872/on-average-how-many-times-must-i-roll-a-dice-until-i-get-a-6
+
+For our case, p(n) is the probability that an item is lost on the nth use.
+p(n) = (1 - p(not lost)^n) - (1 - p(not lost)^(n-1)) = p(not lost)^(n-1) - p(not lost)^n
+
+```{r cars}
+ploss <- 1/6
+numsamples <- 1000
+pnotlost <- 1-ploss
+
+parr <- seq(0,numsamples,1)
+p1 <- (pnotlost^(parr-1) - pnotlost^parr)
+plot(parr*p1, type = "l")
+
+ExpectedValue <- sum(parr*p1)
+
+cumsum <- c()
+for (i in parr) {
+  cumsum <- append(cumsum, sum(p1[1:i]))
+}
+cumsum <- cumsum/sum(p1)
+medianval <- parr[max(which(cumsum<0.5))]
+print(medianval)
+#nmed1 <- -1/log2(pnotlost) + 1
+nmed2 <- log10(.5)/log10(pnotlost)
+print(paste(nmed1,nmed2))
+plot(cumsum, type ="l")
+```
+
+The expected value (mean or average) number of uses with a probability of loss of `r ploss` is roughly `r ExpectedValue`
+
+For different values of loss probability, we can see that the average looks to be the inverse of the loss probability.
+```{r lossfunc, results = 'asis'}
+plossfunc <- function(ploss) {
+  pnotlost <- 1-ploss
+
+parr <- seq(1,numsamples,1)
+p1 <- pnotlost^(parr-1) - pnotlost^parr
+
+ExpectedValue <- sum(p1*parr)
+return (ExpectedValue)
+}
+
+probOfLoss <- seq(0.05, 0.5, 0.05)
+averageUses <- c()
+medianUses <- c()
+for (x in probOfLoss) {
+  averageUses <- append(averageUses,plossfunc(x))
+  #medianUses <- append(medianUses, -1/log2(1-x) + 1)
+  medianUses <- append(medianUses, log10(.5)/log10(1-x))
+  #print(paste(x, plossfunc(x)))
+}
+df <- data.frame(probOfLoss, averageUses, medianUses)
+kable(df)
+```
+
