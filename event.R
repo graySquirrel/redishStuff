@@ -29,3 +29,4 @@ print(paste("loss probability",lossprob))
 print(paste("mean number uses",mean(dfUsing$numUses)))
 print(paste("median number uses",median(dfUsing$numUses)))
 
+hist(c(dfLost$numUses,dfUsing$numUses), breaks = 40, main = "Histogram of number of uses for all stock lost and current at 5% loss rate",xlab = "Number of uses")

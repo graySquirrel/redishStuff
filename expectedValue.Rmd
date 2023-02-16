@@ -28,7 +28,8 @@ numsamples <- 1000
 pnotlost <- 1-ploss
 
 parr <- seq(0,numsamples,1)
-p1 <- (pnotlost^(parr-1) - pnotlost^parr)
+#p1 <- (pnotlost^(parr-1) - pnotlost^parr)
+p1 <- ploss*pnotlost^(parr-1)
 plot(parr*p1, type = "l")
 
 ExpectedValue <- sum(parr*p1)
@@ -54,7 +55,8 @@ plossfunc <- function(ploss) {
   pnotlost <- 1-ploss
 
 parr <- seq(1,numsamples,1)
-p1 <- pnotlost^(parr-1) - pnotlost^parr
+#p1 <- pnotlost^(parr-1) - pnotlost^parr
+p1 <- ploss*pnotlost^(parr-1)
 
 ExpectedValue <- sum(p1*parr)
 return (ExpectedValue)
